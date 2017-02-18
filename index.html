@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Testing</title>
+        <script type="text/javascript" src="d3.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            var dataset;
+
+
+            d3.tsv("testdata.tsv", function(error, data) {
+              if (error) throw error;
+              else {
+                console.log(data);
+              }
+              dataset = data;
+              var svg = d3.select("body").append("svg")
+                          .attr("width", 1920)
+                          .attr("height", 400);
+
+              var circles = svg.selectAll("circle")
+                .data(dataset)
+                .enter()
+                .append("circle");
+
+
+              //generateVisual();
+              //hideLoadMsg();
+
+              circles.attr("fill", "black")
+                .attr("cx", function(d) {return d.post_prob*1000})
+                .attr("cy", 30)
+                .attr("r", 1);
+
+            });
+
+
+
+        </script>
+    </body>
+</html>
