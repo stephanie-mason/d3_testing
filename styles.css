@@ -1,0 +1,14 @@
+body {
+  overflow-y: scroll
+}
+
+.chart {
+  width: 6000px;
+}
+
+.bar {
+  width: 2px;
+  background-color: navy;
+  margin-left: 1px;
+  display: inline-block;
+}
