@@ -4,40 +4,50 @@
         <meta charset="utf-8">
         <title>Testing</title>
         <script type="text/javascript" src="d3.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
     </head>
     <body>
         <script type="text/javascript">
             var dataset;
 
+            var tabulate = function (data,columns) {
+              var table = d3.select('.chart').append('table')
+            	var thead = table.append('thead')
+            	var tbody = table.append('tbody')
 
-            d3.tsv("testdata.tsv", function(error, data) {
-              if (error) throw error;
-              else {
-                console.log(data);
-              }
-              dataset = data;
-              var svg = d3.select("body").append("svg")
-                          .attr("width", 1920)
-                          .attr("height", 400);
+            	thead.append('tr')
+            	  .selectAll('th')
+            	    .data(columns)
+            	    .enter()
+            	  .append('th')
+            	    .text(function (d) { return d })
 
-              var circles = svg.selectAll("circle")
-                .data(dataset)
-                .enter()
-                .append("circle");
+            	var rows = tbody.selectAll('tr')
+            	    .data(data)
+            	    .enter()
+            	  .append('tr')
 
+            	var cells = rows.selectAll('td')
+            	    .data(function(row) {
+            	    	return columns.map(function (column) {
+            	    		return { column: column, value: row[column] }
+            	      })
+                  })
+                  .enter()
+                .append('td')
+                  .text(function (d) { return d.value })
 
-              //generateVisual();
-              //hideLoadMsg();
+              return table;
+            }
 
-              circles.attr("fill", "black")
-                .attr("cx", function(d) {return d.post_prob*1000})
-                .attr("cy", 30)
-                .attr("r", 1);
-
-            });
-
+            d3.csv('matrix1.csv',function (data) {
+            	var columns = ['Prot','A','B','C','D','E','F','G','H','I','J']
+              tabulate(data,columns)
+            })
 
 
         </script>
+        <div class="chart">
+        </div>
     </body>
 </html>
