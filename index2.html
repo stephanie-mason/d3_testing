@@ -9,27 +9,31 @@
     <body>
         <script type="text/javascript">
             var dataset;
+            var headers = ['A','B','C','D','E','F','G','H','I','J']
 
             var color = d3.scaleLinear()
               .range(["#7febff", "#ff7fe1"])
               .domain([5, 20])
 
-            var generateBlocks = function(data) {
-              var row = d3.select('.chart')
-                .selectAll('div')
-                .data(data)
+            d3.csv('matrix1.csv',function (data){
+              console.log(data)
+              dataset = data
+              someFunction()
+            })
+
+            var someFunction = function() {
+                d3.select('.chart').selectAll('p')
+                .data(function(row) {
+                  return headers.map(function (column) {
+                    return { column: column, value: row[column] }
+                  })
+                })
                 .enter()
-                .append('div')
-                .attr('class', 'block')
-                .style('background-color', function(d) {return color(d.A)})
+                .append('p')
+                .text("hm")
             }
 
-            d3.csv('matrix1.csv',function (data){
-              data.forEach(function(d) {
-                console.log("HEYO: " + d)
-              })
-              generateBlocks(data)
-            })
+
 
         </script>
         <div class="chart">
