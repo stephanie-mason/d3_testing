@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Heat Map</title>
+        <script type="text/javascript" src="d3.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <script type="text/javascript">
+            var dataset;
+
+            var color = d3.scaleLinear()
+              .range(["#7febff", "#ff7fe1"])
+              .domain([5, 20])
+
+            var generateBlocks = function(data) {
+              var row = d3.select('.chart')
+                .selectAll('div')
+                .data(data)
+                .enter()
+                .append('div')
+                .attr('class', 'block')
+                .style('background-color', function(d) {return color(d.A)})
+            }
+
+            d3.csv('matrix1.csv',function (data){
+              data.forEach(function(d) {
+                console.log("HEYO: " + d)
+              })
+              generateBlocks(data)
+            })
+
+        </script>
+        <div class="chart">
+        </div>
+    </body>
+</html>

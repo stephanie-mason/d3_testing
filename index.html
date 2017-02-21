@@ -10,7 +10,11 @@
         <script type="text/javascript">
             var dataset;
 
-            var tabulate = function (data,columns) {
+            var color = d3.scaleLinear()
+              .range(["#7febff", "#ff7fe1"])
+              .domain([5, 20])
+
+            var tabulate = function (data,columns,rows) {
               var table = d3.select('.chart').append('table')
             	var thead = table.append('thead')
             	var tbody = table.append('tbody')
@@ -35,15 +39,19 @@
                   })
                   .enter()
                 .append('td')
-                  .text(function (d) { return d.value })
+                  // .text(function (d) { return d.value })
+                  .style("background-color", function(d) {return color(d.value)})
 
               return table;
             }
 
             d3.csv('matrix1.csv',function (data) {
-            	var columns = ['Prot','A','B','C','D','E','F','G','H','I','J']
-              tabulate(data,columns)
+            	var columns = ['A','B','C','D','E','F','G','H','I','J']
+              var rows = ['AR','B','C','D','E','F','G','H','I','J']
+              tabulate(data,columns,rows)
             })
+
+            
 
 
         </script>
