@@ -2,56 +2,51 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Testing</title>
+        <title>Heat Map</title>
         <script type="text/javascript" src="d3.js"></script>
+        <link rel="stylesheet" type="text/css" href="reset.css">
         <link rel="stylesheet" type="text/css" href="styles.css">
     </head>
     <body>
         <script type="text/javascript">
             var dataset;
 
+
             var color = d3.scaleLinear()
               .range(["#7febff", "#ff7fe1"])
               .domain([5, 20])
 
-            var tabulate = function (data,columns,rows) {
-              var table = d3.select('.chart').append('table')
-            	var thead = table.append('thead')
-            	var tbody = table.append('tbody')
+            var someFunction = function(data, headers) {
 
-            	thead.append('tr')
-            	  .selectAll('th')
-            	    .data(columns)
-            	    .enter()
-            	  .append('th')
-            	    .text(function (d) { return d })
+              var row = d3.select('.chart').selectAll('p')
+              .data(data)
+              .enter()
+              .append('p')
+              .attr('class', 'row')
 
-            	var rows = tbody.selectAll('tr')
-            	    .data(data)
-            	    .enter()
-            	  .append('tr')
-
-            	var cells = rows.selectAll('td')
-            	    .data(function(row) {
-            	    	return columns.map(function (column) {
-            	    		return { column: column, value: row[column] }
-            	      })
+              var cell = row.selectAll('svg')
+                .data(function(row) {
+                  return headers.map(function (column) {
+                    return { column: column, value: row[column] }
                   })
-                  .enter()
-                .append('td')
-                  // .text(function (d) { return d.value })
-                  .style("background-color", function(d) {return color(d.value)})
+                })
+                .enter()
+                .append('svg')
+                .attr('class', 'block')
+                .append('rect')
+                .text(function(d) {return d.column + ": " + d.value})
+                .attr('fill', function(d) {return color(d.value)})
+                .attr('width', '40')
+                .attr('height', '40')
 
-              return table;
+
             }
 
-            d3.csv('matrix1.csv',function (data) {
-            	var columns = ['A','B','C','D','E','F','G','H','I','J']
-              var rows = ['AR','B','C','D','E','F','G','H','I','J']
-              tabulate(data,columns,rows)
+            d3.csv('matrix1.csv',function (data){
+              console.log(data)
+              var headers = d3.keys(data[0])
+              someFunction(data, headers)
             })
-
-
 
 
         </script>
