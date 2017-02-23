@@ -1,11 +1,44 @@
-.chart {
-  background: #eee;
-  color: black;
-  text-align: center;
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,700');
+body {
+  font-family: 'Josefin Sans', sans-serif;
 }
 
-.block {
+h1 {
+  font-size: 2em;
+}
+h1 em {
+  font-weight: 700;
+}
+
+.wrap {
+  display: inline-block;
+  margin-top: 60px;
+  margin-left: 50%;
+  transform: translatex(-50%);
+}
+
+.row:first-of-type {
+  margin-top: 3px;
+}
+
+.block-text {
+  display: inline-block;
+}
+
+.outer-block {
   width: 40px;
   height: 40px;
   margin-left: 3px;
+}
+
+.outer-block:last-of-type {
+  margin-right: 3px;
+}
+
+.inner-block {
+  transition: 1s ease;
+}
+
+.inner-block:hover {
+  fill: purple;
 }

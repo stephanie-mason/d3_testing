@@ -9,22 +9,20 @@
     </head>
     <body>
         <script type="text/javascript">
-            var dataset;
-
-
             var color = d3.scaleLinear()
               .range(["#7febff", "#ff7fe1"])
               .domain([5, 20])
 
-            var someFunction = function(data, headers) {
-
-              var row = d3.select('.chart').selectAll('p')
+            var drawHeatMap = function(data, headers) {
+              var row = d3.select('.chart')
+              .selectAll('div')
               .data(data)
               .enter()
-              .append('p')
+              .append('div')
               .attr('class', 'row')
 
-              var cell = row.selectAll('svg')
+              var cell = row
+                .selectAll('svg')
                 .data(function(row) {
                   return headers.map(function (column) {
                     return { column: column, value: row[column] }
@@ -32,25 +30,45 @@
                 })
                 .enter()
                 .append('svg')
-                .attr('class', 'block')
+                .attr('class', 'outer-block')
                 .append('rect')
-                .text(function(d) {return d.column + ": " + d.value})
                 .attr('fill', function(d) {return color(d.value)})
                 .attr('width', '40')
                 .attr('height', '40')
+                .attr('class', 'inner-block')
 
+                var blockLabel = d3.select('.chart')
+                .selectAll('.outer-block')
+                .insert('div')
+                .attr('class', 'block-text')
+                .text(':b')
+
+            }
+
+            var drawLabels = function(data, headers) {
+              var labels = d3.select('.chart')
+              // .selectAll('div')
+              // .data(data)
+              // .enter()
+              .append('div')
+              .attr('class', 'labels')
+              .text("STUFF")
 
             }
 
             d3.csv('matrix1.csv',function (data){
               console.log(data)
               var headers = d3.keys(data[0])
-              someFunction(data, headers)
+              drawHeatMap(data, headers)
+              drawLabels(data, headers)
             })
 
 
         </script>
-        <div class="chart">
+        <div class="wrap">
+          <h1><em>Heat</em>Map</h1>
+          <div class="chart">
+          </div>
         </div>
     </body>
 </html>
